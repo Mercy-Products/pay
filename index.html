@@ -29,6 +29,7 @@ h1{font-size:30px;margin:14px 0 18px;line-height:1.15}
 .opt a.off{background:#b9c4d0;pointer-events:none}
 .foot{color:var(--muted);font-size:13px;padding:0 4px}
 .err{color:var(--red);font-weight:700}
+.ends{display:inline-block;background:#fff1f1;color:var(--red);font-weight:700;font-size:14px;padding:6px 10px;border-radius:7px;margin:12px 0 0;letter-spacing:.5px}
 .pick{display:flex;gap:16px;align-items:center;text-decoration:none;color:var(--ink);padding:14px}
 .pick img{width:110px;height:110px;border-radius:10px;flex:none}
 .pick s{color:#9aa6b2} .pick .now{color:var(--red);font-size:18px}
@@ -36,28 +37,36 @@ h1{font-size:30px;margin:14px 0 18px;line-height:1.15}
 </style></head>
 <body><div class="wrap" id="app"></div>
 <script>
-const D = {"bundles":{"syn-1":{"name":"Synthetic Underlayment 100 GSM — 1 pallet (56 rolls)","rolls":56,"pallets":1,"goods":2240,"regular":2688,"img":"img/syn-1.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/8x27sL8t0bhVbLD9ZZfUQ1h","card":"https://buy.stripe.com/aFa00j10ybhV16Z2xxfUQ1i","fl_ach":"https://buy.stripe.com/aFa4gz9x44Tx3f7gonfUQ1j","fl_card":"https://buy.stripe.com/dRmdR96kSfyb3f78VVfUQ1k"}},"syn-2":{"name":"Synthetic Underlayment 100 GSM — 2 pallets (112 rolls)","rolls":112,"pallets":2,"goods":4480,"regular":5376,"img":"img/syn-2.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/5kQcN59x4dq3aHzc87fUQ1l","card":"https://buy.stripe.com/dRmaEXeRo2Lp4jb7RRfUQ1m","fl_ach":"https://buy.stripe.com/9B67sL4cKadRdTL6NNfUQ1n","fl_card":"https://buy.stripe.com/bJebJ17oWclZ7vn9ZZfUQ1o"}},"syn-4":{"name":"Synthetic Underlayment 100 GSM — 4 pallets (224 rolls)","rolls":224,"pallets":4,"goods":8960,"regular":10752,"img":"img/syn-4.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/eVq4gz5gO85J5nf9ZZfUQ1p","card":"https://buy.stripe.com/aFaeVd24C71F2b31ttfUQ1q","fl_ach":"https://buy.stripe.com/6oU6oH10y5XBaHzdcbfUQ1r","fl_card":"https://buy.stripe.com/dRm5kDfVsclZeXP8VVfUQ1s"}},"syn-6":{"name":"Synthetic Underlayment 100 GSM — 6 pallets (336 rolls)","rolls":336,"pallets":6,"goods":13440,"regular":16128,"img":"img/syn-6.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/bJeaEX5gOclZ5nf9ZZfUQ1t","card":"https://buy.stripe.com/5kQ28r9x471FbLDgonfUQ1u","fl_ach":"https://buy.stripe.com/5kQdR97oW2LpbLD1ttfUQ1v","fl_card":"https://buy.stripe.com/00w8wPgZw4Tx3f74FFfUQ1w"}},"logo-6":{"name":"Mercy Pro Guard 100 GSM — Custom Logo, 6 pallets (336 rolls)","rolls":336,"pallets":6,"goods":13440,"regular":16128,"img":"img/logo-6.jpg","custom":true,"links":{"ach":"https://buy.stripe.com/cNi6oHgZwclZ3f75JJfUQ1x","card":"https://buy.stripe.com/4gM3cv10y71FcPH9ZZfUQ1y","fl_ach":"https://buy.stripe.com/3cI3cvaB899NcPHgonfUQ1z","fl_card":"https://buy.stripe.com/dRm00j10y2Lpg1TegffUQ1A"}}},"flTax":7.5,"cardFee":3,"perRoll":40,"regPerRoll":48};
+const D = {"bundles":{"syn-1":{"name":"Synthetic Underlayment 100 GSM — 1 pallet (56 rolls)","rolls":56,"pallets":1,"perRoll":45,"goods":2520,"regular":2688,"img":"img/syn-1.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/5kQ14n4cKbhV6rjegffUQ1B","card":"https://buy.stripe.com/3cIaEX38G4Tx6rjfkjfUQ1C","fl_ach":"https://buy.stripe.com/00w8wP9x499Ng1TdcbfUQ1D","fl_card":"https://buy.stripe.com/aFa3cv9x485Jg1T9ZZfUQ1E"}},"syn-2":{"name":"Synthetic Underlayment 100 GSM — 2 pallets (112 rolls)","rolls":112,"pallets":2,"perRoll":40,"goods":4480,"regular":5376,"img":"img/syn-2.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/5kQcN59x4dq3aHzc87fUQ1l","card":"https://buy.stripe.com/dRmaEXeRo2Lp4jb7RRfUQ1m","fl_ach":"https://buy.stripe.com/9B67sL4cKadRdTL6NNfUQ1n","fl_card":"https://buy.stripe.com/bJebJ17oWclZ7vn9ZZfUQ1o"}},"syn-4":{"name":"Synthetic Underlayment 100 GSM — 4 pallets (224 rolls)","rolls":224,"pallets":4,"perRoll":40,"goods":8960,"regular":10752,"img":"img/syn-4.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/eVq4gz5gO85J5nf9ZZfUQ1p","card":"https://buy.stripe.com/aFaeVd24C71F2b31ttfUQ1q","fl_ach":"https://buy.stripe.com/6oU6oH10y5XBaHzdcbfUQ1r","fl_card":"https://buy.stripe.com/dRm5kDfVsclZeXP8VVfUQ1s"}},"syn-6":{"name":"Synthetic Underlayment 100 GSM — 6 pallets (336 rolls)","rolls":336,"pallets":6,"perRoll":40,"goods":13440,"regular":16128,"img":"img/syn-6.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/bJeaEX5gOclZ5nf9ZZfUQ1t","card":"https://buy.stripe.com/5kQ28r9x471FbLDgonfUQ1u","fl_ach":"https://buy.stripe.com/5kQdR97oW2LpbLD1ttfUQ1v","fl_card":"https://buy.stripe.com/00w8wPgZw4Tx3f74FFfUQ1w"}},"logo-6":{"name":"Mercy Pro Guard 100 GSM — Custom Logo, 6 pallets (336 rolls)","rolls":336,"pallets":6,"perRoll":40,"goods":13440,"regular":16128,"img":"img/logo-6.jpg","custom":true,"links":{"ach":"https://buy.stripe.com/cNi6oHgZwclZ3f75JJfUQ1x","card":"https://buy.stripe.com/4gM3cv10y71FcPH9ZZfUQ1y","fl_ach":"https://buy.stripe.com/3cI3cvaB899NcPHgonfUQ1z","fl_card":"https://buy.stripe.com/dRm00j10y2Lpg1TegffUQ1A"}}},"flTax":7.5,"cardFee":3,"regPerRoll":48,"deadline":"2026-11-29T18:00:00-05:00","closed":false};
 const fmt = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const r2 = n => Math.round(n * 100) / 100;
 const key = new URLSearchParams(location.search).get('b');
-const b = D.bundles[key];
+const ended = D.closed || Date.now() >= Date.parse(D.deadline);
+const ENDS = 'Ends Nov 29, 6 PM ET';
+const HEAD = `<div class="brand">BEM DIRECT SUPPLY <span class="deal">BLACK FRIDAY</span></div>
+  <div class="ends">LIMITED TIME · ENDS NOV 29, 6 PM ET</div>`;
+const b = ended ? null : D.bundles[key];
 const app = document.getElementById('app');
 // Florida ZIP codes start with 320-339, 341, 342, 344, 346, 347, 349
 const isFL = z => /^(3[23]\d|34[124679])\d{2}$/.test(z);
-if (!b) {
+if (ended) {
+  app.innerHTML = `<div class="box"><div class="brand">BEM DIRECT SUPPLY</div><h1>This offer has ended</h1>
+  <p class="sub">The Black Friday offer ended on Nov 29 at 6 PM ET. For current prices call +1 (888) 602-5822
+  or visit <a href="https://www.bemdirect.com">bemdirect.com</a>.</p></div>`;
+} else if (!b) {
   // no bundle in the link: list every Black Friday bundle
-  app.innerHTML = `<div class="box"><div class="brand">BEM DIRECT SUPPLY <span class="deal">BLACK FRIDAY</span></div>
-    <h1>Black Friday offers</h1><p class="sub">Limited time, one week only. Free shipping. Pick your bundle.</p></div>` +
+  app.innerHTML = `<div class="box">${HEAD}
+    <h1>Black Friday offers</h1><p class="sub">Free shipping. Pick your bundle.</p></div>` +
     Object.entries(D.bundles).map(([k, x]) => `<a class="box pick" href="?b=${k}"><img src="${x.img}" alt="">
       <div><b>${x.name}</b><div class="sub"><s>${fmt(x.regular)}</s> <b class="now">${fmt(x.goods)}</b></div></div></a>`).join('') +
     `<div class="foot">Questions: +1 (888) 602-5822 · sales@bemdirect.com</div>`;
 } else {
   app.innerHTML = `
   <div class="box">
-    <div class="brand">BEM DIRECT SUPPLY <span class="deal">BLACK FRIDAY</span></div>
+    ${HEAD}
     <h1>Complete your order</h1>
     <img class="banner" src="${b.img}" alt="">
-    <div class="row"><div>${b.name}<div class="sub">$${D.perRoll} per roll · regular $${D.regPerRoll}</div></div>
+    <div class="row"><div>${b.name}<div class="sub">$${b.perRoll} per roll · regular $${D.regPerRoll}</div></div>
       <div class="r"><s>${fmt(b.regular)}</s>${fmt(b.goods)}</div></div>
     <div class="row" id="taxrow" hidden><div>Sales tax (${D.flTax}%)</div><div class="r" id="tax"></div></div>
     <div class="row"><div><b>Delivered products</b><div class="sub">Free shipping${b.custom ? '' : ' · delivery in about 1 week'}</div></div><div class="r" id="sum"></div></div>
@@ -71,7 +80,7 @@ if (!b) {
   <div class="box opt"><h2>Credit or debit card</h2><div class="amt" id="cardAmt"></div>
     <p>Includes a ${D.cardFee}% card processing fee.</p>
     <a id="cardBtn" class="off">Continue with credit or debit card</a></div>
-  <div class="foot">Limited time Black Friday offer. You enter the delivery address and phone number on the next page.
+  <div class="foot">Limited time Black Friday offer, ${ENDS}. You enter the delivery address and phone number on the next page.
     Questions: +1 (888) 602-5822 · sales@bemdirect.com</div>`;
   const $ = id => document.getElementById(id);
   const update = () => {
