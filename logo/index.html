@@ -52,7 +52,7 @@ if (!b) {
   app.innerHTML = `<div class="box">${HEAD}
     <h1>${D.title}</h1><p class="sub">${D.subtitle}</p></div>` +
     Object.entries(D.bundles).map(([k, x]) => `<a class="box pick" href="?b=${k}"><img src="${x.img}" alt="">
-      <div><b>${x.name}</b><div class="sub"><b class="now">${fmt(x.goods)}</b> · $${x.perRoll}/roll</div></div></a>`).join('') +
+      <div><b>${x.name}</b><div class="sub"><b class="now">${fmt(x.goods)}</b> · ${x.perRollText || ('$' + x.perRoll + '/roll')}</div></div></a>`).join('') +
     `<a class="box more" href="https://www.bemdirect.com">For more products, visit <b>bemdirect.com</b> →</a>`;
 } else {
   app.innerHTML = `
@@ -60,7 +60,7 @@ if (!b) {
     ${HEAD}
     <h1>Complete your order</h1>
     <img class="banner" src="${b.img}" alt="">
-    <div class="row"><div>${b.name}<div class="sub">$${b.perRoll} per roll</div></div><div class="r">${fmt(b.goods)}</div></div>
+    <div class="row"><div>${b.name}<div class="sub">${b.perRollText || ('$' + b.perRoll + ' per roll')}</div></div><div class="r">${fmt(b.goods)}</div></div>
     <div class="row" id="taxrow"><div id="taxlbl">Sales tax</div><div class="r" id="tax"></div></div>
     <div class="row"><div><b>Delivered products</b><div class="sub">Free shipping · ${b.delivery}</div></div><div class="r" id="sum"></div></div>
     <div class="zip"><label for="z">Delivery ZIP code</label>
