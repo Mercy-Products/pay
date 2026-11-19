@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BEM Direct Supply — Black Friday order</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--ink:#16202b;--muted:#5b6b7b;--line:#e3e8ee;--blue:#1f63c6;--red:#e3262c;--bg:#eef3f9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:28px 16px 48px}
+.box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-bottom:16px;box-shadow:0 6px 24px rgba(20,40,70,.06)}
+.brand{font-weight:800;letter-spacing:2.5px;color:var(--blue);font-size:13px}
+.deal{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:1.5px;padding:4px 9px;border-radius:5px;margin-left:8px;vertical-align:1px}
+h1{font-size:30px;margin:14px 0 18px;line-height:1.15}
+.banner{width:100%;border-radius:12px;display:block;margin-bottom:18px}
+.row{display:flex;justify-content:space-between;gap:16px;padding:10px 0}
+.row + .row{border-top:1px solid var(--line)}
+.row .r{text-align:right;white-space:nowrap;font-weight:700}
+.row s{color:#9aa6b2;font-weight:500;margin-right:6px}
+.sub{color:var(--muted);font-size:14px}
+.zip{margin-top:14px}
+.zip label{display:block;font-weight:700;margin-bottom:6px}
+.zip input{font-size:18px;padding:10px 12px;border:1px solid #c9d3de;border-radius:9px;width:170px;letter-spacing:1px}
+.zip .hint{color:var(--muted);font-size:14px;margin-top:6px;min-height:20px}
+.opt{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center}
+.opt h2{margin:0;font-size:20px}
+.opt .amt{grid-row:1/3;grid-column:2;font-size:26px;font-weight:800}
+.opt p{margin:0;color:var(--muted);font-size:15px}
+.opt a{grid-column:1/3;display:block;text-align:center;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:10px;margin-top:14px}
+.opt a.off{background:#b9c4d0;pointer-events:none}
+.foot{color:var(--muted);font-size:13px;padding:0 4px}
+.err{color:var(--red);font-weight:700}
+.pick{display:flex;gap:16px;align-items:center;text-decoration:none;color:var(--ink);padding:14px}
+.pick img{width:110px;height:110px;border-radius:10px;flex:none}
+.pick s{color:#9aa6b2} .pick .now{color:var(--red);font-size:18px}
+@media(max-width:480px){h1{font-size:25px}.opt .amt{font-size:22px}.box{padding:20px}}
+</style></head>
+<body><div class="wrap" id="app"></div>
+<script>
+const D = {"bundles":{"syn-1":{"name":"Synthetic Underlayment 100 GSM — 1 pallet (56 rolls)","rolls":56,"pallets":1,"goods":2240,"regular":2688,"img":"img/syn-1.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/8x27sL8t0bhVbLD9ZZfUQ1h","card":"https://buy.stripe.com/aFa00j10ybhV16Z2xxfUQ1i","fl_ach":"https://buy.stripe.com/aFa4gz9x44Tx3f7gonfUQ1j","fl_card":"https://buy.stripe.com/dRmdR96kSfyb3f78VVfUQ1k"}},"syn-2":{"name":"Synthetic Underlayment 100 GSM — 2 pallets (112 rolls)","rolls":112,"pallets":2,"goods":4480,"regular":5376,"img":"img/syn-2.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/5kQcN59x4dq3aHzc87fUQ1l","card":"https://buy.stripe.com/dRmaEXeRo2Lp4jb7RRfUQ1m","fl_ach":"https://buy.stripe.com/9B67sL4cKadRdTL6NNfUQ1n","fl_card":"https://buy.stripe.com/bJebJ17oWclZ7vn9ZZfUQ1o"}},"syn-4":{"name":"Synthetic Underlayment 100 GSM — 4 pallets (224 rolls)","rolls":224,"pallets":4,"goods":8960,"regular":10752,"img":"img/syn-4.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/eVq4gz5gO85J5nf9ZZfUQ1p","card":"https://buy.stripe.com/aFaeVd24C71F2b31ttfUQ1q","fl_ach":"https://buy.stripe.com/6oU6oH10y5XBaHzdcbfUQ1r","fl_card":"https://buy.stripe.com/dRm5kDfVsclZeXP8VVfUQ1s"}},"syn-6":{"name":"Synthetic Underlayment 100 GSM — 6 pallets (336 rolls)","rolls":336,"pallets":6,"goods":13440,"regular":16128,"img":"img/syn-6.jpg","custom":false,"links":{"ach":"https://buy.stripe.com/bJeaEX5gOclZ5nf9ZZfUQ1t","card":"https://buy.stripe.com/5kQ28r9x471FbLDgonfUQ1u","fl_ach":"https://buy.stripe.com/5kQdR97oW2LpbLD1ttfUQ1v","fl_card":"https://buy.stripe.com/00w8wPgZw4Tx3f74FFfUQ1w"}},"logo-6":{"name":"Mercy Pro Guard 100 GSM — Custom Logo, 6 pallets (336 rolls)","rolls":336,"pallets":6,"goods":13440,"regular":16128,"img":"img/logo-6.jpg","custom":true,"links":{"ach":"https://buy.stripe.com/cNi6oHgZwclZ3f75JJfUQ1x","card":"https://buy.stripe.com/4gM3cv10y71FcPH9ZZfUQ1y","fl_ach":"https://buy.stripe.com/3cI3cvaB899NcPHgonfUQ1z","fl_card":"https://buy.stripe.com/dRm00j10y2Lpg1TegffUQ1A"}}},"flTax":7.5,"cardFee":3,"perRoll":40,"regPerRoll":48};
+const fmt = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const r2 = n => Math.round(n * 100) / 100;
+const key = new URLSearchParams(location.search).get('b');
+const b = D.bundles[key];
+const app = document.getElementById('app');
+// Florida ZIP codes start with 320-339, 341, 342, 344, 346, 347, 349
+const isFL = z => /^(3[23]\d|34[124679])\d{2}$/.test(z);
+if (!b) {
+  // no bundle in the link: list every Black Friday bundle
+  app.innerHTML = `<div class="box"><div class="brand">BEM DIRECT SUPPLY <span class="deal">BLACK FRIDAY</span></div>
+    <h1>Black Friday offers</h1><p class="sub">Limited time, one week only. Free shipping. Pick your bundle.</p></div>` +
+    Object.entries(D.bundles).map(([k, x]) => `<a class="box pick" href="?b=${k}"><img src="${x.img}" alt="">
+      <div><b>${x.name}</b><div class="sub"><s>${fmt(x.regular)}</s> <b class="now">${fmt(x.goods)}</b></div></div></a>`).join('') +
+    `<div class="foot">Questions: +1 (888) 602-5822 · sales@bemdirect.com</div>`;
+} else {
+  app.innerHTML = `
+  <div class="box">
+    <div class="brand">BEM DIRECT SUPPLY <span class="deal">BLACK FRIDAY</span></div>
+    <h1>Complete your order</h1>
+    <img class="banner" src="${b.img}" alt="">
+    <div class="row"><div>${b.name}<div class="sub">$${D.perRoll} per roll · regular $${D.regPerRoll}</div></div>
+      <div class="r"><s>${fmt(b.regular)}</s>${fmt(b.goods)}</div></div>
+    <div class="row" id="taxrow" hidden><div>Sales tax (${D.flTax}%)</div><div class="r" id="tax"></div></div>
+    <div class="row"><div><b>Delivered products</b><div class="sub">Free shipping${b.custom ? '' : ' · delivery in about 1 week'}</div></div><div class="r" id="sum"></div></div>
+    <div class="zip"><label for="z">Delivery ZIP code</label>
+      <input id="z" inputmode="numeric" maxlength="5" placeholder="e.g. 30301" autocomplete="postal-code">
+      <div class="hint" id="hint">Enter the ZIP code where we deliver, then choose how to pay.</div></div>
+  </div>
+  <div class="box opt"><h2>ACH bank transfer</h2><div class="amt" id="achAmt"></div>
+    <p>No added processing fee. Bank payments can take a few business days to clear.</p>
+    <a id="achBtn" class="off">Continue with ACH bank transfer</a></div>
+  <div class="box opt"><h2>Credit or debit card</h2><div class="amt" id="cardAmt"></div>
+    <p>Includes a ${D.cardFee}% card processing fee.</p>
+    <a id="cardBtn" class="off">Continue with credit or debit card</a></div>
+  <div class="foot">Limited time Black Friday offer. You enter the delivery address and phone number on the next page.
+    Questions: +1 (888) 602-5822 · sales@bemdirect.com</div>`;
+  const $ = id => document.getElementById(id);
+  const update = () => {
+    const z = $('z').value.replace(/\D/g, '').slice(0, 5); $('z').value = z;
+    const ok = z.length === 5, fl = ok && isFL(z);
+    const tax = fl ? r2(b.goods * D.flTax / 100) : 0, ach = r2(b.goods + tax), card = r2(ach * (1 + D.cardFee / 100));
+    $('taxrow').hidden = !fl; $('tax').textContent = fmt(tax);
+    $('sum').textContent = fmt(ach); $('achAmt').textContent = fmt(ach); $('cardAmt').textContent = fmt(card);
+    const L = b.links, a = fl ? L.fl_ach : L.ach, c = fl ? L.fl_card : L.card;
+    for (const [btn, url] of [['achBtn', a], ['cardBtn', c]]) {
+      const el = $(btn), on = ok && !!url;
+      el.classList.toggle('off', !on); on ? el.href = url : el.removeAttribute('href');
+    }
+    $('hint').innerHTML = !ok ? 'Enter the ZIP code where we deliver, then choose how to pay.'
+      : !a ? '<span class="err">Online payment is not ready yet. Please call +1 (888) 602-5822.</span>'
+      : fl ? `Sales tax ${D.flTax}% is added for this ZIP code.` : 'Free shipping to this ZIP code.';
+  };
+  $('z').addEventListener('input', update); update();
+}
+</script></body></html>
