@@ -32,6 +32,7 @@ h1{font-size:30px;margin:14px 0 18px;line-height:1.15}
 .ends{display:inline-block;background:#fff1f1;color:var(--red);font-weight:700;font-size:14px;padding:6px 10px;border-radius:7px;margin:12px 0 0;letter-spacing:.5px}
 .pick{display:flex;gap:16px;align-items:center;text-decoration:none;color:var(--ink);padding:14px}
 .pick img{width:110px;height:110px;border-radius:10px;flex:none}
+.more{display:block;text-align:center;text-decoration:none;color:#fff;background:var(--blue);font-size:18px;padding:18px}
 .pick s{color:#9aa6b2} .pick .now{color:var(--red);font-size:18px}
 @media(max-width:480px){h1{font-size:25px}.opt .amt{font-size:22px}.box{padding:20px}}
 </style></head>
@@ -51,19 +52,19 @@ const app = document.getElementById('app');
 const isFL = z => /^(3[23]\d|34[124679])\d{2}$/.test(z);
 if (ended) {
   app.innerHTML = `<div class="box"><div class="brand">BEM DIRECT SUPPLY</div><h1>This offer has ended</h1>
-  <p class="sub">The Black Friday offer ended on Nov 29 at 6 PM ET. For current prices call +1 (888) 602-5822
-  or visit <a href="https://www.bemdirect.com">bemdirect.com</a>.</p></div>`;
+  <p class="sub">The Black Friday offer ended on Nov 29 at 6 PM ET.</p></div>
+  <a class="box more" href="https://www.bemdirect.com">For more deals, visit <b>bemdirect.com</b> →</a>`;
 } else if (!b) {
   // no bundle in the link: list every Black Friday bundle
   app.innerHTML = `<div class="box">${HEAD}
     <h1>Black Friday offers</h1><p class="sub">Free shipping. Pick your bundle.</p></div>` +
     Object.entries(D.bundles).map(([k, x]) => `<a class="box pick" href="?b=${k}"><img src="${x.img}" alt="">
       <div><b>${x.name}</b><div class="sub"><s>${fmt(x.regular)}</s> <b class="now">${fmt(x.goods)}</b></div></div></a>`).join('') +
-    `<div class="foot">Questions: +1 (888) 602-5822 · sales@bemdirect.com</div>`;
+    `<a class="box more" href="https://www.bemdirect.com">For more deals, visit <b>bemdirect.com</b> →</a>`;
 } else {
   app.innerHTML = `
   <div class="box">
-    ${HEAD}
+    <div class="brand">BEM DIRECT SUPPLY <span class="deal">BLACK FRIDAY</span></div>
     <h1>Complete your order</h1>
     <img class="banner" src="${b.img}" alt="">
     <div class="row"><div>${b.name}<div class="sub">$${b.perRoll} per roll · regular $${D.regPerRoll}</div></div>
