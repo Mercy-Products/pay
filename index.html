@@ -70,7 +70,7 @@ if (ended) {
     <div class="row"><div>${b.name}<div class="sub">$${b.perRoll} per roll · regular $${D.regPerRoll}</div></div>
       <div class="r"><s>${fmt(b.regular)}</s>${fmt(b.goods)}</div></div>
     <div class="row" id="taxrow" hidden><div>Sales tax (${D.flTax}%)</div><div class="r" id="tax"></div></div>
-    <div class="row"><div><b>Delivered products</b><div class="sub">Free shipping${b.custom ? '' : ' · delivery in about 1 week'}</div></div><div class="r" id="sum"></div></div>
+    <div class="row"><div><b>Delivered products</b><div class="sub">Free shipping · delivery in about ${b.custom ? '80+ days' : '1 week'}</div></div><div class="r" id="sum"></div></div>
     <div class="zip"><label for="z">Delivery ZIP code</label>
       <input id="z" inputmode="numeric" maxlength="5" placeholder="e.g. 30301" autocomplete="postal-code">
       <div class="hint" id="hint">Enter the ZIP code where we deliver, then choose how to pay.</div></div>
