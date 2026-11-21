@@ -62,7 +62,14 @@ const D = {"bundles":{"syn-1":{"name":"Synthetic Underlayment 100 GSM — 1 pall
 const fmt = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const whole = n => '$' + Math.round(n).toLocaleString('en-US');
 const r2 = n => Math.round(n * 100) / 100;
-const key = new URLSearchParams(location.search).get('b');
+const Q = new URLSearchParams(location.search), key = Q.get('b');
+// Source tag (Igor, 2026-11-21): ?src=salty / sms / email, optional ?cid=<GHL contact id>. It is carried from the list
+// to the deal page and handed to Stripe as client_reference_id, so each payment shows where the buyer came from.
+const clean = v => (v || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 60);
+const SRC = clean(Q.get('src')), CID = clean(Q.get('cid'));
+const keep = (SRC ? '&src=' + SRC : '') + (CID ? '&cid=' + CID : '');
+const REF = [SRC, CID].filter(Boolean).join('-');
+const withRef = url => !url || !REF ? url : url + (url.includes('?') ? '&' : '?') + 'client_reference_id=' + encodeURIComponent(REF);
 const ended = D.closed || Date.now() >= Date.parse(D.deadline);
 const ENDS = 'Ends Nov 29, 6 PM ET';
 const MORE = `<div class="box more"><div class="call">Need more deals? Call <a href="tel:+18886025822">+1 (888) 602-5822</a></div>
@@ -91,7 +98,7 @@ if (ended) {
   app.innerHTML = `<div class="box hero"><div class="brand">BEM DIRECT SUPPLY</div>
     <h1>Black Friday <span>offers</span></h1><div class="sub">Free shipping · pick your bundle</div>
     <div class="cd" data-cd="big"></div><div class="cdnote">Ends Nov 29, 6 PM ET</div></div>` +
-    Object.entries(D.bundles).map(([k, x]) => `<a class="box pick" href="?b=${k}"><img src="${x.img}" alt="">
+    Object.entries(D.bundles).map(([k, x]) => `<a class="box pick" href="?b=${k}${keep}"><img src="${x.img}" alt="">
       <div class="info"><b>${x.name}</b><div class="sub"><s>${fmt(x.regular)}</s> <b class="now">${fmt(x.goods)}</b></div>
       <div class="save">You save ${whole(x.regular - x.goods)}</div><br>
       <span class="buy">Buy now →</span></div></a>`).join('') + MORE;
@@ -135,7 +142,7 @@ if (ended) {
     const L = b.links[rate] || {}, a = L.ach, c = L.card, k = L.bnpl;
     for (const [btn, url] of [['achBtn', a], ['cardBtn', c], ['bnplBtn', k]]) {
       const el = $(btn), on = ok && !!url;
-      el.classList.toggle('off', !on); on ? el.href = url : el.removeAttribute('href');
+      el.classList.toggle('off', !on); on ? el.href = withRef(url) : el.removeAttribute('href');
     }
     $('hint').innerHTML = !ok ? 'Enter the ZIP code where we deliver, then choose how to pay.'
       : !a ? '<span class="err">Online payment is not ready yet. Please call +1 (888) 602-5822.</span>'
