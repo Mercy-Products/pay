@@ -69,15 +69,23 @@ const clean = v => (v || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 60);
 const SRC = clean(Q.get('src')), CID = clean(Q.get('cid'));
 const keep = (SRC ? '&src=' + SRC : '') + (CID ? '&cid=' + CID : '');
 const REF = [SRC, CID].filter(Boolean).join('-');
-const GC = '';  // GoatCounter site code (Igor's account), e.g. 'bempay'
-const trackPath = what => `/bf/${SRC || 'direct'}/${what}`;
-const track = (what, event) => { try { if (GC && window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: trackPath(what), title: what, event: !!event }); } catch (e) {} };
-if (GC) {
-  const sc = document.createElement('script'); sc.async = true; sc.src = 'https://gc.zgo.at/count.js';
-  sc.dataset.goatcounter = `https://${GC}.goatcounter.com/count`; sc.dataset.goatcounterSettings = '{"no_onload":true}';
-  sc.onload = () => track(key && !ended ? key : (ended ? 'ended' : 'list'));
-  document.head.appendChild(sc);
-}
+// Google Analytics 4 (Igor's property "Mercy products BF", 2026-11-21). The ?src= tag becomes the GA traffic source:
+// utm_* are added to the address before the tag loads, so GA reports visits per channel (salty / sms / email / direct).
+// No personal data is sent: only page views, ZIP entered (yes/no, not the ZIP) and which pay button was pressed.
+const GA = 'G-CHM53EZXKT';
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+const MEDIUM = { salty: 'paid_social', sms: 'sms', email: 'email' };
+try {
+  if (SRC && !Q.get('utm_source')) {
+    const u = new URL(location.href);
+    u.searchParams.set('utm_source', SRC); u.searchParams.set('utm_medium', MEDIUM[SRC] || 'link'); u.searchParams.set('utm_campaign', 'black_friday_2026');
+    history.replaceState(null, '', u);
+  }
+} catch (e) {}
+gtag('js', new Date()); gtag('config', GA);
+{ const sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA; document.head.appendChild(sc); }
+const track = (name, params) => { try { gtag('event', name, Object.assign({ offer_src: SRC || 'direct' }, params || {})); } catch (e) {} };
 const withRef = url => !url || !REF ? url : url + (url.includes('?') ? '&' : '?') + 'client_reference_id=' + encodeURIComponent(REF);
 const ended = D.closed || Date.now() >= Date.parse(D.deadline);
 const ENDS = 'Ends Nov 29, 6 PM ET';
@@ -158,10 +166,11 @@ if (ended) {
       : rate ? `Sales tax ${rate}% applies to this ZIP code.` : 'Free shipping to this ZIP code.';
   };
   $('z').addEventListener('input', update); update();
+  track('view_item', { item_id: key, currency: 'USD', value: b.goods, items: [{ item_id: key, item_name: b.name, price: b.goods, quantity: 1 }] });
   let zipCounted = false;
-  $('z').addEventListener('input', () => { if (!zipCounted && $('z').value.length === 5) { zipCounted = true; track(`${key}/zip`, true); } });
+  $('z').addEventListener('input', () => { if (!zipCounted && $('z').value.length === 5) { zipCounted = true; track('zip_entered', { item_id: key }); } });
   for (const [btn, name] of [['achBtn', 'ach'], ['cardBtn', 'card'], ['bnplBtn', 'klarna-affirm']])
-    $(btn).addEventListener('pointerdown', () => { if ($(btn).href) track(`${key}/pay-${name}`, true); });
+    $(btn).addEventListener('pointerdown', () => { if ($(btn).href) track('begin_checkout', { item_id: key, payment_type: name, currency: 'USD', value: b.goods, items: [{ item_id: key, item_name: b.name, price: b.goods, quantity: 1 }] }); });
   tick(); setInterval(tick, 1000);
 }
 </script></body></html>
