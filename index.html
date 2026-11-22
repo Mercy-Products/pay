@@ -49,6 +49,14 @@ h1{font-size:30px;margin:14px 0 18px;line-height:1.15}
 .save{display:inline-block;margin-top:6px;background:#e6f6ec;color:#127a3a;font-weight:800;font-size:14px;padding:4px 9px;border-radius:6px}
 .row.saverow{color:#127a3a;font-weight:700}
 .buy{display:inline-block;margin-top:10px;background:var(--red);color:#fff;font-weight:800;font-size:15px;letter-spacing:.5px;padding:10px 18px;border-radius:9px}
+.lead{border:2px solid #ffd24d;background:#fffbea}
+.lead h2{margin:0 0 4px;font-size:21px} .lead p{margin:0 0 12px;color:var(--muted);font-size:15px}
+.lead input{display:block;width:100%;font-size:17px;padding:11px 12px;border:1px solid #c9d3de;border-radius:9px;margin-bottom:9px;background:#fff}
+.lead button{width:100%;font-size:17px;font-weight:800;color:#16202b;background:#ffd24d;border:0;border-radius:10px;padding:14px;cursor:pointer}
+.lead button:disabled{opacity:.6;cursor:default}
+.lead small{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:9px}
+.lead .ok{font-weight:700;color:#127a3a;font-size:17px}
+.lead .bad{color:var(--red);font-weight:700;font-size:14px;margin-bottom:6px}
 .more{text-align:center;background:#e4ebf3;border:0;box-shadow:none;color:var(--muted);padding:18px}
 .more .call{font-size:17px;color:var(--ink)}
 .more .call a{color:var(--ink);font-weight:800;text-decoration:none;white-space:nowrap}
@@ -92,6 +100,23 @@ gtag('js', new Date()); gtag('config', GA);
 })(window, document, 'clarity', 'script', 'zhdwe2nqo8');
 try { clarity('set', 'src', SRC || 'direct'); if (key) clarity('set', 'deal', key); } catch (e) {}
 const track = (name, params) => { try { gtag('event', name, Object.assign({ offer_src: SRC || 'direct' }, params || {})); } catch (e) {} };
+// "Hold this price" lead form (Igor + Jett, 2026-11-21): the free GHL form "BF pay page - Hold this price" embedded inline.
+// GHL creates the contact itself. Its hidden field "BF details" (query key bf) gets the deal and channel from the iframe address.
+// Not shown to people who came from our own GHL SMS/email with ?cid= (we already know who they are).
+const LEAD_FORM = 'jzXLEw6es8OdlPD1DBsp';
+const leadBox = (title, text, deal) => {
+  if (!LEAD_FORM || CID) return '';
+  const b0 = deal ? D.bundles[deal] : null;
+  const bf = (b0 ? `${deal} - ${b0.name} - ${fmt(b0.goods)}` : 'Black Friday list page') + ` | source: ${SRC || 'direct'}`;
+  return `<div class="box lead"><h2>${title}</h2><p>${text}</p>
+  <iframe src="https://api.leadconnectorhq.com/widget/form/${LEAD_FORM}?bf=${encodeURIComponent(bf)}" style="width:100%;height:862px;border:none;border-radius:8px"
+    id="inline-${LEAD_FORM}" data-layout="{'id':'INLINE'}" data-trigger-type="alwaysShow" data-trigger-value="" data-activation-type="alwaysActivated"
+    data-activation-value="" data-deactivation-type="neverDeactivate" data-deactivation-value="" data-form-name="BF pay page - Hold this price"
+    data-height="862" data-layout-iframe-id="inline-${LEAD_FORM}" data-form-id="${LEAD_FORM}" title="BF pay page - Hold this price"></iframe></div>`;
+};
+// GHL's resize script is loaded once the iframe is on the page
+const wireLead = () => { if (document.getElementById('inline-' + LEAD_FORM) && !document.getElementById('ghlEmbed')) {
+  const sc = document.createElement('script'); sc.id = 'ghlEmbed'; sc.src = 'https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(sc); } };
 const withRef = url => !url || !REF ? url : url + (url.includes('?') ? '&' : '?') + 'client_reference_id=' + encodeURIComponent(REF);
 const ended = D.closed || Date.now() >= Date.parse(D.deadline);
 const ENDS = 'Ends Nov 29, 6 PM ET';
@@ -124,7 +149,9 @@ if (ended) {
     Object.entries(D.bundles).filter(([k, x]) => !x.hidden).map(([k, x]) => `<a class="box pick" href="?b=${k}${keep}"><img src="${x.img}" alt="">
       <div class="info"><b>${x.name}</b><div class="sub"><s>${fmt(x.regular)}</s> <b class="now">${fmt(x.goods)}</b></div>
       <div class="save">You save ${whole(x.regular - x.goods)}</div><br>
-      <span class="buy">Buy now →</span></div></a>`).join('') + MORE;
+      <span class="buy">Buy now →</span></div></a>`).join('') +
+    leadBox('Not ready to order yet?', 'Leave your contact and we will hold the Black Friday price for you and send you the details.', null) + MORE;
+  wireLead(null);
   tick(); setInterval(tick, 1000);
 } else {
   app.innerHTML = `
@@ -151,6 +178,7 @@ if (ended) {
   <div class="box opt"><h2>Klarna or Affirm</h2><div class="amt" id="bnplAmt"></div>
     <p>Pay over time. Includes a ${D.bnplFee}% Klarna / Affirm processing fee. Approval and plans are set by the provider.</p>
     <a id="bnplBtn" class="off">Continue with Klarna or Affirm</a></div>
+  ${leadBox('Not ready to pay today?', 'Leave your contact and we will hold this Black Friday price for you. A specialist will reach out to answer any questions.', key)}
   <div class="foot">Limited time Black Friday offer, ${ENDS}. You enter the delivery address and phone number on the next page.
     Questions: +1 (888) 602-5822 · sales@bemdirect.com</div>`;
   const $ = id => document.getElementById(id);
@@ -172,6 +200,8 @@ if (ended) {
       : rate ? `Sales tax ${rate}% applies to this ZIP code.` : 'Free shipping to this ZIP code.';
   };
   $('z').addEventListener('input', update); update();
+  wireLead(key);
+  $('z').addEventListener('input', () => { lastZip = $('z').value.length === 5 ? $('z').value : lastZip; });
   track('view_item', { item_id: key, currency: 'USD', value: b.goods, items: [{ item_id: key, item_name: b.name, price: b.goods, quantity: 1 }] });
   let zipCounted = false;
   $('z').addEventListener('input', () => { if (!zipCounted && $('z').value.length === 5) { zipCounted = true; track('zip_entered', { item_id: key }); } });
