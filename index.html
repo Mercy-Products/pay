@@ -74,7 +74,9 @@ const Q = new URLSearchParams(location.search), key = Q.get('b');
 // Source tag (Igor, 2026-11-21): ?src=salty / sms / email, optional ?cid=<GHL contact id>. It is carried from the list
 // to the deal page and handed to Stripe as client_reference_id, so each payment shows where the buyer came from.
 const clean = v => (v || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 60);
-const SRC = clean(Q.get('src')), CID = clean(Q.get('cid'));
+// a GHL merge field that was not filled in (e.g. "{{contact.id}}") is ignored, so it never hides the form or tags Stripe with junk
+const filled = v => (v && !/[{}]|contact\./i.test(v)) ? v : '';
+const SRC = clean(filled(Q.get('src'))), CID = clean(filled(Q.get('cid')));
 const keep = (SRC ? '&src=' + SRC : '') + (CID ? '&cid=' + CID : '');
 const REF = [SRC, CID].filter(Boolean).join('-');
 // Google Analytics 4 (Igor's property "Mercy products BF", 2026-11-21). The ?src= tag becomes the GA traffic source:
