@@ -107,7 +107,8 @@ const track = (name, params) => { try { gtag('event', name, Object.assign({ offe
 // Not shown to people who came from our own GHL SMS/email with ?cid= (we already know who they are).
 const LEAD_FORM = 'jzXLEw6es8OdlPD1DBsp';
 const leadBox = (title, text, deal) => {
-  if (!LEAD_FORM || CID) return '';
+  // hidden for our own list contacts: anyone with a GHL contact id, or arriving from our SMS / email (Dmitry, 2026-11-21)
+  if (!LEAD_FORM || CID || SRC === 'sms' || SRC === 'email') return '';
   const b0 = deal ? D.bundles[deal] : null;
   const bf = (b0 ? `${deal} - ${b0.name} - ${fmt(b0.goods)}` : 'Black Friday list page') + ` | source: ${SRC || 'direct'}`;
   return `<div class="box lead"><h2>${title}</h2><p>${text}</p>
