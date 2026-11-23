@@ -204,7 +204,6 @@ if (ended) {
   };
   $('z').addEventListener('input', update); update();
   wireLead(key);
-  $('z').addEventListener('input', () => { lastZip = $('z').value.length === 5 ? $('z').value : lastZip; });
   track('view_item', { item_id: key, currency: 'USD', value: b.goods, items: [{ item_id: key, item_name: b.name, price: b.goods, quantity: 1 }] });
   let zipCounted = false;
   $('z').addEventListener('input', () => { if (!zipCounted && $('z').value.length === 5) { zipCounted = true; track('zip_entered', { item_id: key }); } });
