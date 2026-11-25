@@ -2,6 +2,16 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BEM Direct Supply — Black Friday order</title>
 <meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEM Direct Supply">
+<meta property="og:url" content="https://deals.bemdirect.com/">
+<meta property="og:title" content="Black Friday Deals | BEM Direct Supply">
+<meta property="og:description" content="Synthetic underlayment from $40/roll (regular $48). Free shipping. Black Friday prices until Nov 29, 6 PM ET.">
+<meta property="og:image" content="https://deals.bemdirect.com/img/og-bf.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Synthetic underlayment from $40/roll (regular $48). Free shipping. Black Friday prices until Nov 29, 6 PM ET.">
 <style>
 :root{--ink:#16202b;--muted:#5b6b7b;--line:#e3e8ee;--blue:#1f63c6;--red:#e3262c;--bg:#eef3f9}
 *{box-sizing:border-box}
@@ -70,7 +80,8 @@ const D = {"bundles":{"syn-1":{"name":"Synthetic Underlayment 100 GSM — 1 pall
 const fmt = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const whole = n => '$' + Math.round(n).toLocaleString('en-US');
 const r2 = n => Math.round(n * 100) / 100;
-const Q = new URLSearchParams(location.search), key = Q.get('b');
+// deal short links (deals.bemdirect.com/syn-4/) are copies of this page with their own link preview; the folder name picks the deal
+const Q = new URLSearchParams(location.search), key = Q.get('b') || /*PAGEKEY*/null;
 // Source tag (Igor, 2026-11-21): ?src=salty / sms / email, optional ?cid=<GHL contact id>. It is carried from the list
 // to the deal page and handed to Stripe as client_reference_id, so each payment shows where the buyer came from.
 const clean = v => (v || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 60);
